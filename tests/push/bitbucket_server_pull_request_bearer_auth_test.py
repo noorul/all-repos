@@ -52,5 +52,6 @@ def test_settings_repr():
         '    token=...,\n'
         "    base_url='bitbucket.domain.com',\n"
         '    draft=False,\n'
+        '    default_reviewers=False,\n'
         ')'
     )

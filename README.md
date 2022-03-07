@@ -515,6 +515,7 @@ Pushes the branch to `origin` and then creates a Bitbucket pull request for the 
 #### Optional `push_settings`
 
 - `draft` (default: `false`) if true will open the pull request as a draft.
+- `default_reviewers` (default: `false`): if `true` then add default reviewers to the pull request
 
 ### `all_repos.push.bitbucket_server_pull_request_bearer_auth`
 
@@ -530,6 +531,7 @@ Pushes the branch to `origin` and then creates a Bitbucket pull request for the 
 #### Optional `push_settings`
 
 - `draft` (default: `false`) if true will open the pull request as a draft.
+- `default_reviewers` (default: `false`): if `true` then add default reviewers to the pull request
 
 ### `all_repos.push.gitlab_pull_request`
 

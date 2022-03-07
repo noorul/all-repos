@@ -13,6 +13,7 @@ class Settings(NamedTuple):
     token: str
     base_url: str
     draft: bool = False
+    default_reviewers: bool = False
 
     @property
     def auth_header(self) -> dict[str, str]:
@@ -23,4 +24,10 @@ class Settings(NamedTuple):
 
 
 def push(settings: Settings, branch_name: str) -> None:
-    push_and_create_pr(settings.base_url, settings.auth_header, settings.draft, branch_name)
+    push_and_create_pr(
+        settings.base_url,
+        settings.auth_header,
+        settings.draft,
+        settings.default_reviewers,
+        branch_name,
+    )
