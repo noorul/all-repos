@@ -9,8 +9,9 @@ Clone all your repositories and apply sweeping changes.
 
 ## Installation
 
-`pip install all-repos`
+NOTE: This is a fork and not released on PyPi
 
+`pip install git+https://github.com/noorul/all-repos`
 
 ## CLI
 
