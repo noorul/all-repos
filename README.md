@@ -11,7 +11,9 @@ Clone all your repositories and apply sweeping changes.
 
 NOTE: This is a fork and not released on PyPi
 
-`pip install git+https://github.com/noorul/all-repos`
+```bash
+pip install git+https://github.com/noorul/all-repos
+```
 
 ## CLI
 
@@ -120,7 +122,7 @@ _note_: this assumes GNU sed. If you're on macOS, install `gnu-sed` with Homebre
 brew install gnu-sed
 
 # Add to .bashrc / .zshrc
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
 ```
 
 Arguments:
