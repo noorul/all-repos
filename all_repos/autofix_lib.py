@@ -3,9 +3,11 @@ from __future__ import annotations
 import argparse
 import contextlib
 import functools
+import importlib.metadata
 import os
 import shlex
 import subprocess
+import sys
 import tempfile
 import traceback
 from typing import Any
@@ -15,7 +17,7 @@ from typing import Iterable
 from typing import NamedTuple
 from typing import NoReturn
 
-import pkg_resources
+from packaging.version import Version
 
 from all_repos import cli
 from all_repos import color
@@ -23,6 +25,11 @@ from all_repos import git
 from all_repos import mapper
 from all_repos.config import Config
 from all_repos.config import load_config
+
+if sys.version_info >= (3, 11):  # pragma: >=3.11 cover
+    from contextlib import chdir
+else:  # pragma: <3.11 cover
+    from contextlib_chdir import chdir
 
 
 def add_fixer_args(parser: argparse.ArgumentParser) -> None:
@@ -116,16 +123,6 @@ def run(*cmd: str, **kwargs: Any) -> subprocess.CompletedProcess[str]:
     return subprocess.run(cmd, **kwargs)
 
 
-@contextlib.contextmanager
-def cwd(path: str) -> Generator[None, None, None]:
-    pwd = os.getcwd()
-    os.chdir(path)
-    try:
-        yield
-    finally:
-        os.chdir(pwd)
-
-
 def assert_importable(module: str, *, install: str) -> None:
     try:
         __import__(module)
@@ -137,14 +134,13 @@ def assert_importable(module: str, *, install: str) -> None:
 
 
 def require_version_gte(pkg_name: str, version: str) -> None:
-    pkg = pkg_resources.get_distribution(pkg_name)
-    pkg_version = pkg_resources.parse_version(pkg.version)
-    target_version = pkg_resources.parse_version(version)
+    pkg_version = Version(importlib.metadata.version(pkg_name))
+    target_version = Version(version)
     if pkg_version < target_version:
         raise SystemExit(
             f'This tool requires the `{pkg_name}` package is at least version '
             f'{version}.  '
-            f'The currently installed version is {pkg.version}.\n\n'
+            f'The currently installed version is {pkg_version}.\n\n'
             f'Try `pip install --upgrade {pkg_name}`',
         )
 
@@ -163,7 +159,7 @@ def repo_context(repo: str, *, use_color: bool) -> Generator[None, None, None]:
         remote = git.remote(repo)
         with tempfile.TemporaryDirectory() as tmpdir:
             run('git', 'clone', '--quiet', repo, tmpdir)
-            with cwd(tmpdir):
+            with chdir(tmpdir):
                 run('git', 'remote', 'set-url', 'origin', remote)
                 run('git', 'fetch', '--prune', '--quiet')
                 yield
