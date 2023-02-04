@@ -1,5 +1,4 @@
-[![Build Status](https://dev.azure.com/asottile/asottile/_apis/build/status/asottile.all-repos?branchName=main)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=33&branchName=main)
-[![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/asottile/asottile/33/main.svg)](https://dev.azure.com/asottile/asottile/_build/latest?definitionId=33&branchName=main)
+[![build status](https://github.com/asottile/all-repos/actions/workflows/main.yml/badge.svg)](https://github.com/asottile/all-repos/actions/workflows/main.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/asottile/all-repos/main.svg)](https://results.pre-commit.ci/latest/github/asottile/all-repos/main)
 
 all-repos
@@ -222,6 +221,7 @@ Clones all repositories available to a user on github.
       personal access token.
     - The minimum scope required to function is `public_repo`, though you'll
       need `repo` to access private repositories.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 - `username`: the github username you will log in as.
 
 #### Optional `source_settings`
@@ -257,6 +257,7 @@ Clones all repositories forked from a repository on github.
     - Use [the settings tab](//github.com/settings/tokens/new) to create a
       personal access token.
     - The minimum scope required to function is `public_repo`.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 - `repo`: the repo which has forks
 
 #### Optional `source_settings`
@@ -286,6 +287,7 @@ Clones all repositories from an organization on github.
       personal access token.
     - The minimum scope required to function is `public_repo`, though you'll
       need `repo` to access private repositories.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 - `org`: the organization to clone from
 
 #### Optional `source_settings`
@@ -405,6 +407,7 @@ Clones all repositories from an organization on gitlab.
     - Use the settings tab (eg https://{gitlab.domain.com}/-/profile/personal_access_tokens) to create a
       personal access token.
     - We need the scope: `read_api`, `read_repository`.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 - `org`: the organization to clone from
 
 #### Optional `source_settings`
@@ -485,6 +488,7 @@ branch.
       personal access token.
     - The minimum scope required to function is `public_repo`, though you'll
       need `repo` to access private repositories.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 - `username`: the github username you will log in as.
 
 #### Optional `push_settings`
@@ -529,6 +533,7 @@ Pushes the branch to `origin` and then creates a GitLab pull request for the bra
     - Use the settings tab (eg https://{gitlab.domain.com}/-/profile/personal_access_tokens) to create a
       personal access token.
     - We need the scope: `write_repository`.
+- `api_key_env`: alternatively API key can also be passed via an environment variable
 
 ### `all_repos.push.readonly`
 
