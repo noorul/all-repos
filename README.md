@@ -406,7 +406,7 @@ Clones all repositories from an organization on gitlab.
 - `api_key`: the api key which the user will log in as.
     - Use the settings tab (eg https://{gitlab.domain.com}/-/profile/personal_access_tokens) to create a
       personal access token.
-    - We need the scope: `read_api`, `read_repository`.
+    - We need the scope: `read_api`.
 - `api_key_env`: alternatively API key can also be passed via an environment variable
 - `org`: the organization to clone from
 
@@ -493,11 +493,12 @@ branch.
 
 #### Optional `push_settings`
 
+- `base_url` (default: `https://api.github.com`) is the base URL to the Github
+  API to use (for Github Enterprise support set this to `https://{your_domain}/api/v3`).
+- `draft` (default: `false`) if true will open the pull request as a draft.
 - `fork` (default: `false`): (if applicable) a fork will be created and pushed
   to instead of the upstream repository.  The pull request will then be made
   to the upstream repository.
-- `base_url` (default: `https://api.github.com`) is the base URL to the Github
-  API to use (for Github Enterprise support set this to `https://{your_domain}/api/v3`).
 
 ### `all_repos.push.bitbucket_server_pull_request`
 
@@ -510,6 +511,10 @@ Pushes the branch to `origin` and then creates a Bitbucket pull request for the 
 - `app_password`: the authentication method for the above user to login with
     - Create an application password within your [account settings](https://bitbucket.domain.com/plugins/servlet/access-tokens/manage).
     - We need the scope: Repositories -> Read
+
+#### Optional `push_settings`
+
+- `draft` (default: `false`) if true will open the pull request as a draft.
 
 ### `all_repos.push.bitbucket_server_pull_request_bearer_auth`
 

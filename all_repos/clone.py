@@ -6,8 +6,8 @@ import json
 import os.path
 import shutil
 import subprocess
-from typing import Generator
-from typing import Sequence
+from collections.abc import Generator
+from collections.abc import Sequence
 
 from all_repos import cli
 from all_repos import git
@@ -17,7 +17,7 @@ from all_repos.config import load_config
 
 def _get_current_state_helper(
         path: str,
-) -> Generator[tuple[str, str], None, None]:
+) -> Generator[tuple[str, str]]:
     if not os.path.exists(path):
         return
 

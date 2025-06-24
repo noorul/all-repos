@@ -108,9 +108,9 @@ def test_clones_all_branches_true(file_config):
     # initially we should not see multiple branches
     branch_out = subprocess.check_output((
         'git', '-C', str(file_config.output_dir.join('repo1')),
-        'branch', '--remote',
+        'for-each-ref', 'refs/remotes', "--format='%(refname:strip=2)'",
     )).decode()
-    assert branch_out == '  origin/main\n'
+    assert branch_out == "'origin/HEAD'\n'origin/main'\n"
 
     # set that we want to clone all branches
     cfg_contents = json.loads(file_config.cfg.read())
@@ -121,19 +121,15 @@ def test_clones_all_branches_true(file_config):
 
     branch_out = subprocess.check_output((
         'git', '-C', str(file_config.output_dir.join('repo1')),
-        'branch', '--remote',
+        'for-each-ref', 'refs/remotes', "--format='%(refname:strip=2)'",
     )).decode()
-    assert branch_out == '  origin/b2\n  origin/main\n'
+    assert branch_out == "'origin/HEAD'\n'origin/b2'\n'origin/main'\n"
 
 
 def test_it_sorts_filtered_repos(file_config):
     # make the repos json out of order
     contents = json.loads(file_config.repos_json.read())
-    # TODO: in python3.8+ this can use `reversed(contents.items())`
-    new_contents = json.dumps({
-        k: contents[k]
-        for k in reversed(tuple(contents))
-    })
+    new_contents = json.dumps(dict(reversed(contents.items())))
     file_config.repos_json.write(new_contents)
 
     assert not main(('--config-file', str(file_config.cfg)))

@@ -5,9 +5,9 @@ import contextlib
 import os
 import sys
 import tempfile
+from collections.abc import Generator
+from collections.abc import Sequence
 from typing import Any
-from typing import Generator
-from typing import Sequence
 
 from all_repos import autofix_lib
 from all_repos.config import Config
@@ -15,7 +15,7 @@ from all_repos.grep import repos_matching
 
 
 @contextlib.contextmanager
-def tmp_pre_commit_home() -> Generator[None, None, None]:
+def tmp_pre_commit_home() -> Generator[None]:
     """During lots of autoupdates, many repositories will be cloned into the
     pre-commit directory.  This prevents leaving many MB/GB of repositories
     behind due to this autofixer.  This context creates a temporary directory

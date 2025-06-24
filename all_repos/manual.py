@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import Sequence
+from collections.abc import Sequence
 
 from all_repos import autofix_lib
 from all_repos.config import Config
@@ -22,7 +22,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         help='override the autofixer branch name (default `%(default)s`).',
     )
     parser.add_argument(
-        '--commit-msg', required=True,
+        '--commit-msg', '--commit-message', required=True,
         help='set the autofixer commit message.',
     )
     args = parser.parse_args(argv)

@@ -5,8 +5,8 @@ import functools
 import os.path
 import shlex
 import subprocess
-from typing import Generator
-from typing import Sequence
+from collections.abc import Generator
+from collections.abc import Sequence
 
 from identify.identify import tags_from_path
 
@@ -19,7 +19,7 @@ def find_repos(
         config: Config,
         *,
         ls_files_cmd: Sequence[str],
-) -> Generator[str, None, None]:
+) -> Generator[str]:
     for repo in config.get_cloned_repos():
         repo_dir = os.path.join(config.output_dir, repo)
         if subprocess.run(
@@ -38,10 +38,6 @@ def apply_fix(
     filenames = [f.decode() for f in filenames_b]
     filenames = [f for f in filenames if tags_from_path(f) & {'file', 'text'}]
     autofix_lib.run(*sed_cmd, *filenames)
-
-
-def _quote_cmd(cmd: tuple[str, ...]) -> str:
-    return ' '.join(shlex.quote(arg) for arg in cmd)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -63,7 +59,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         help='override the autofixer branch name (default `%(default)s`).',
     )
     parser.add_argument(
-        '--commit-msg',
+        '--commit-msg', '--commit-message',
         help=(
             'override the autofixer commit message.  (default '
             '`git ls-files -z -- FILENAMES | xargs -0 sed -i ... EXPRESSION`).'
@@ -86,7 +82,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     sed_cmd = ('sed', '-i', *dash_r, args.expression)
     ls_files_cmd = ('git', 'ls-files', '-z', '--', args.filenames)
 
-    msg = f'{_quote_cmd(ls_files_cmd)} | xargs -0 {_quote_cmd(sed_cmd)}'
+    msg = f'{shlex.join(ls_files_cmd)} | xargs -0 {shlex.join(sed_cmd)}'
     msg = args.commit_msg or msg
 
     repos, config, commit, autofix_settings = autofix_lib.from_cli(
