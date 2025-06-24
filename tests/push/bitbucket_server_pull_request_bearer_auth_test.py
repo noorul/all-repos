@@ -31,7 +31,7 @@ def test_bitbucket_server_pull_request(
     out = subprocess.check_output((
         'git', '-C', fake_bitbucket_repo.src, 'branch',
     )).decode()
-    assert out == '  feature\n* master\n'
+    assert out == '  feature\n* main\n'
 
     expected_url = 'https://bitbucket.domain.com/rest/api/1.0/' \
         + 'projects/proj/repos/slug/pull-requests'
@@ -51,5 +51,6 @@ def test_settings_repr():
         'Settings(\n'
         '    token=...,\n'
         "    base_url='bitbucket.domain.com',\n"
+        '    draft=False,\n'
         ')'
     )

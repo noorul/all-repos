@@ -29,6 +29,7 @@ class Settings(NamedTuple):
 def make_pull_request(
         base_url: str,
         auth_header: dict[str, str],
+        draft: bool,
         branch_name: str,
 ) -> bitbucket_server_api.Response:
     headers = {
@@ -52,7 +53,7 @@ def make_pull_request(
         'state': 'OPEN',
         'open': True,
         'closed': False,
-        'draft': settings.draft,
+        'draft': draft,
         'fromRef': {
             'id': head,
             'repository': {
@@ -85,12 +86,13 @@ def make_pull_request(
 def push_and_create_pr(
         base_url: str,
         auth_header: dict[str, str],
+        draft: bool,
         branch_name: str,
 ) -> None:
-    resp = make_pull_request(base_url, auth_header, branch_name)
+    resp = make_pull_request(base_url, auth_header, draft, branch_name)
     url = resp.links['self'][0]['href'] if resp.links else ''
     print(f'Pull request created at {url}')
 
 
 def push(settings: Settings, branch_name: str) -> None:
-    push_and_create_pr(settings.base_url, settings.auth_header, branch_name)
+    push_and_create_pr(settings.base_url, settings.auth_header, settings.draft, branch_name)

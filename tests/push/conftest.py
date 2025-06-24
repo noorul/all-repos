@@ -24,7 +24,7 @@ def make_fake_bitbucket_repo(tmpdir):
         dest = tmpdir.join('dest')
         subprocess.check_call(('git', 'clone', src, dest))
         subprocess.check_call((
-            'git', '-C', dest, 'checkout', 'origin/master', '-b', 'feature',
+            'git', '-C', dest, 'checkout', 'origin/HEAD', '-b', 'feature',
         ))
         subprocess.check_call((
             'git', '-C', dest, 'commit', '--allow-empty',

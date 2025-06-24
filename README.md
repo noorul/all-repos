@@ -527,6 +527,10 @@ Pushes the branch to `origin` and then creates a Bitbucket pull request for the 
     - Create a personal access token within your [account settings](https://bitbucket.domain.com/plugins/servlet/access-tokens/manage).
     - We need the scope: Repositories -> Write
 
+#### Optional `push_settings`
+
+- `draft` (default: `false`) if true will open the pull request as a draft.
+
 ### `all_repos.push.gitlab_pull_request`
 
 Pushes the branch to `origin` and then creates a GitLab pull request for the branch.
